@@ -1,2 +1,2 @@
 #!/bin/bash
-file --brief --mime-type /tmp/iamafile
+file /tmp/iamafile

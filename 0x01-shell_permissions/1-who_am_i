@@ -1,2 +1,2 @@
 #!/bin/bash
-chmod +x username.sh
+whoami

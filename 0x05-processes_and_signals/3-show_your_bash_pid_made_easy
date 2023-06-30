@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+#Script displays PID & pocesses whose name has "bash"
+
+pgrep -l bash

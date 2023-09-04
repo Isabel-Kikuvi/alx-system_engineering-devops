@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+#installing and configuring HAProxy for load balancing
+
+sudo apt-get update
+sudo apt-get -y install --no-install-recommends software-properties-common
+sudo add-apt-repository ppa:vbernat/haproxy-2.4
+sudo apt-get -y install haproxy=2.4.\*
+
+s_config=\
+"
+backend isabel-back
+        mode http
+        balance roundrobin
+        server 227247-web-01 100.26.161.155:80 check
+        server 227247-web-02 227247-web-02:80 check
+frontend isabel-front
+        bind *:80
+        mode http
+        default_backend isabel-back
+"
+echo "$server_config" | sudo tee -a /etc/haproxy/haproxy.cfg
+
+echo "ENABLED=1" | sudo tee -a /etc/default/haproxy
+
+sudo service haproxy restart

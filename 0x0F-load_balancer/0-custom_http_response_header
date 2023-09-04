@@ -1,0 +1,30 @@
+#!/usr/bin/env bash
+#Configure Nginx so that its HTTP response contains a custom header
+#The name of the custom HTTP header must be X-Served-By
+
+#installing nginx
+sudo apt-get update
+sudo apt-get -y install nginx
+
+#allowing requests through port 80
+sudo ufw allow 'Nginx HTTP'
+sudo mkdir -p /var/www/html
+
+#changing permissions to be able to create files
+sudo chmod -R 755 /var/www
+
+#creating index page
+echo 'Hello World!' |sudo tee  /var/www/html/index.html
+
+#error 404
+echo "Ceci n'est pas une page" |sudo tee /var/www/html/404.html
+
+#redirection and header to display hostname
+string_for_replacement="server_name _;\n\tadd_header X-Served-By \$hostname;\n\trewrite ^\/redirect_me https:\/\/www.youtube.com permanent;"
+sudo sed -i "s/server_name _;/$string_for_replacement/" /etc/nginx/sites-enabled/default
+
+#redirect for error 404
+string_for_replacement="listen 80 default_server;\n\terror_page 404 \/404.html;\n\tlocation = \/404.html {\n\t\troot \/var\/www\/html;\n\t\tinternal;\n\t}"
+sudo sed -i "s/listen 80 default_server;/$string_for_replacement/" /etc/nginx/sites-enabled/default
+
+sudo service nginx restart

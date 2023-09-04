@@ -18,7 +18,7 @@ frontend isabel-front
         mode http
         default_backend isabel-back
 "
-echo "$server_config" | sudo tee -a /etc/haproxy/haproxy.cfg
+echo "$s_config" | sudo tee -a /etc/haproxy/haproxy.cfg
 
 echo "ENABLED=1" | sudo tee -a /etc/default/haproxy
 

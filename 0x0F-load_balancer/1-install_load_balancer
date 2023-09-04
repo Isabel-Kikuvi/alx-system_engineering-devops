@@ -12,7 +12,7 @@ backend isabel-back
         mode http
         balance roundrobin
         server 227247-web-01 100.26.161.155:80 check
-        server 227247-web-02 227247-web-02:80 check
+        server 227247-web-02 34.227.93.14:80 check
 frontend isabel-front
         bind *:80
         mode http

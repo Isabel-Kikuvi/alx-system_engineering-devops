@@ -32,4 +32,19 @@ defaults
         errorfile 502 /etc/haproxy/errors/502.http
         errorfile 503 /etc/haproxy/errors/503.http
         errorfile 504 /etc/haproxy/errors/504.http
+
+frontend www-http
+         bind *:80
+         http-request set-header X-Forwarded-Proto http
+         default_backend web-backend
+frontend www-https
+         bind *:443 ssl crt /etc/ssl/certs/ssl.pem
+         http-request set-header X-Forwarded-Proto https
+         default_backend web-backend
+backend web-backend
+        balance roundrobin
+        redirect scheme https if !{ ssl_fc }
+        server 227247-web-01 100.26.161.155:80 check
+        server 227247-web-02 34.227.93.14:80 check
+                                                      
                                                   

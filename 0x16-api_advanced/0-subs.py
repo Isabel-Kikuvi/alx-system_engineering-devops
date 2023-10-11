@@ -22,6 +22,6 @@ def number_of_subscribers(subreddit):
             subscribers = data['data']['subscribers']
             return subscribers
         else:
-            return 0  # Return 0 for invalid subreddits or other errors
+            return 0
     except Exception as e:
         return 0
